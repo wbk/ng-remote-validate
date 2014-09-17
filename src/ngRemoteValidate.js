@@ -47,7 +47,7 @@
                                 !(Object.keys(options.keys).filter(function(k) {
                                     return options.keys[k] === p;
                                 })[0]);
-                            if ( ngModel.$error[ p ] && p != directiveId && checkedKey ) {
+                            if ( ngModel.$error[ p ] && p !== directiveId && checkedKey ) {
                                 otherRulesInValid = true;
                                 break;
                             }
@@ -118,7 +118,7 @@
                                 toValidate = scope[el[0].name + 'SetArgs'](value, el, attrs, ngModel);
                             }
 
-                            if(options.ngRemoteMethod == 'POST'){
+                            if(options.ngRemoteMethod === 'POST'){
                                 httpOpts.data = toValidate;
                             } else {
                                 httpOpts.params = toValidate;

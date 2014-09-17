@@ -79,18 +79,26 @@
                         if( !skipCache ) {
                             addToCache( response );    
                         }
+
                         ngModel.$setValidity( directiveId, isValid );
                         ngModel.$processing = ngModel.$pending = ngForm.$pending = false;
                     };
 
                     handleChange = function( value ) {
-                        if( typeof value === 'undefined' || value === '' ) {
-                            ngModel.$setPristine();
-                            return;
-                        };
-
                         if ( !shouldProcess( value ) ) {
-                            return setValidation( [ { data: { isValid: true, value: value } } ], true );
+                            var forceValid =  { data: { isValid: true, value: value } };
+                            if (options.hasOwnProperty('keys')) {
+                                return setValidation( Object.keys(options.keys).map(
+                                    function(url) {
+                                        return {
+                                            data: forceValid.data,
+                                            config: { url: url }   
+                                        };
+                                    }
+                                ), true);
+                            } else {
+                                return setValidation( [ forceValid ], true );
+                            } 
                         }
 
                         if ( cache[ value ] ) {
